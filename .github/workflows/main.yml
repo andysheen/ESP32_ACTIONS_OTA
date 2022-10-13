@@ -2,6 +2,12 @@ name: build
 
 on: 
    workflow_dispatch:
+      inputs:
+         name:
+            type: string
+            description: release number
+         message:
+           required: true
 jobs:
   build:
     runs-on: ubuntu-latest
