@@ -1,4 +1,3 @@
-#include "credentials.h"
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <HTTPClient.h>
@@ -6,7 +5,7 @@
 
 WiFiMulti WiFiMulti;
 
-//credentials store in credentials.h
+//credentials store in credentials.ino
 //const char * ssid = "ssid";
 //const char * password = "pass";
 
