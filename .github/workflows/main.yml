@@ -102,6 +102,9 @@ jobs:
           git config --global --add safe.directory $(realpath .)
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
+      - uses: actions/download-artifact@v2
+        with:
+          name: app.bin
       - name: commit
         run: |
           # Stage the file, commit and push
