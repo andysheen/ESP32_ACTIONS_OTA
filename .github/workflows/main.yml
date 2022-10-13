@@ -6,8 +6,7 @@ on:
          name:
             type: string
             description: release number
-         message:
-           required: true
+            required: true
 jobs:
   build:
     runs-on: ubuntu-latest
