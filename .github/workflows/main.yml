@@ -2,6 +2,10 @@ name: build
 
 on: 
    workflow_dispatch:
+      inputs:
+         name:
+            description: release number
+            required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -92,15 +96,25 @@ jobs:
           asset_path: build/app.bin
           asset_name: app.bin
           asset_content_type: application/octet-stream
+     
+      - name: Update repo
+        uses: actions/checkout@v2
+
       - name: setup git config
         run: |
           # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+          git config --global --add safe.directory $(realpath .)
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
       - name: commit
         run: |
           # Stage the file, commit and push
+          echo '${{ github.event.inputs.name }}' > fw_version.txt
           git add app.bin
+          git add fw_version.txt
           git commit -m "new fw"
           git push origin main
           
