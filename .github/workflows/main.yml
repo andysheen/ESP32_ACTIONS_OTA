@@ -4,7 +4,6 @@ on:
    workflow_dispatch:
       inputs:
          name:
-            type: string
             description: release number
             required: true
 jobs:
