@@ -113,7 +113,7 @@ jobs:
       - name: commit
         run: |
           # Stage the file, commit and push
-          printf "%s" "${{ github.events.input.name }}" >> fw_version.txt
+          printf "%s" "${{ github.events.input.name }}" > fw_version.txt
           git add app.bin
           git add fw_version.txt
           git commit -m "new fw"
