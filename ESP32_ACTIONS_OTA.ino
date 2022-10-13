@@ -1,13 +1,8 @@
-#include <WiFi.h>
-#include <WiFiMulti.h>
+#include <WiFiManager.h> 
 #include <HTTPClient.h>
 #include <HTTPUpdate.h>
 
-WiFiMulti WiFiMulti;
-
-//credentials store in credentials.ino
-//const char * ssid = "ssid";
-//const char * password = "pass";
+ WiFiManager wm;
 
 const char * GITHUB_URL = "https://github.com/andysheen/ESP32_ACTIONS_OTA/releases/latest/downloads/app.bin";
 
