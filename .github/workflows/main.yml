@@ -92,6 +92,12 @@ jobs:
           asset_path: build/app.bin
           asset_name: app.bin
           asset_content_type: application/octet-stream
+     
+      - name: Update repo
+        uses: actions/checkout@v2
+        with:
+          path: ESP32_ACTIONS_OTA
+
       - name: setup git config
         run: |
           # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
