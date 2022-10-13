@@ -95,8 +95,6 @@ jobs:
      
       - name: Update repo
         uses: actions/checkout@v2
-        with:
-          path: ESP32_ACTIONS_OTA
 
       - name: setup git config
         run: |
