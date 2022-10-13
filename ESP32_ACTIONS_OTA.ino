@@ -4,7 +4,7 @@
 
  WiFiManager wm;
 
-const char * GITHUB_URL = "https://github.com/andysheen/ESP32_ACTIONS_OTA/releases/latest/downloads/app.bin";
+const char * GITHUB_URL = "https://github.com/andysheen/ESP32_ACTIONS_OTA/releases/latest/download/app.bin";
 
 //LED Variables
 const int led = 2; // ESP32 Pin to which onboard LED is connected
