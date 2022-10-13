@@ -1,49 +1,13 @@
-void update_started() {
-  Serial.println("CALLBACK:  HTTP update process started");
-}
-
-void update_finished() {
-  Serial.println("CALLBACK:  HTTP update process finished");
-}
-
-void update_progress(int cur, int total) {
-  Serial.printf("CALLBACK:  HTTP update process at %d of %d bytes...\n", cur, total);
-}
-
-void update_error(int err) {
-  Serial.printf("CALLBACK:  HTTP update fatal error code %d\n", err);
-}
-
-void otaSetup() {
-  
-}
-
-void otaHandler(){
-    // wait for WiFi connection
+void firmwareUpdate(void) {
   if (WiFi.status() == WL_CONNECTED) {
-
-    WiFiClient client;
-
-    // The line below is optional. It can be used to blink the LED on the board during flashing
-    // The LED will be on during download of one buffer of data from the network. The LED will
-    // be off during writing that buffer to flash
-    // On a good connection the LED should flash regularly. On a bad connection the LED will be
-    // on much longer than it will be off. Other pins than LED_BUILTIN may be used. The second
-    // value is used to put the LED on. If the LED is on with HIGH, that value should be passed
-    // httpUpdate.setLedPin(LED_BUILTIN, LOW);
-
-    httpUpdate.onStart(update_started);
-    httpUpdate.onEnd(update_finished);
-    httpUpdate.onProgress(update_progress);
-    httpUpdate.onError(update_error);
-
-    t_httpUpdate_return ret = httpUpdate.update(client, GITHUB_URL);
-    // Or:
-    //t_httpUpdate_return ret = httpUpdate.update(client, "server", 80, "/file.bin");
+    WiFiClientSecure client;
+    client.setInsecure();
+    //client.setCACert(rootCACertificate);
+    t_httpUpdate_return ret = httpUpdate.update(client, URL_fw_Bin);
 
     switch (ret) {
       case HTTP_UPDATE_FAILED:
-        Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", httpUpdate.getLastError(), httpUpdate.getLastErrorString().c_str());
+        Serial.printf("HTTP_UPDATE_FAILD Error (%d): %s\n", httpUpdate.getLastError(), httpUpdate.getLastErrorString().c_str());
         break;
 
       case HTTP_UPDATE_NO_UPDATES:
@@ -55,4 +19,68 @@ void otaHandler(){
         break;
     }
   }
+}
+
+void otaSetup() {
+
+}
+
+void otaHandler() {
+  // wait for WiFi connection
+  if (WiFi.status() == WL_CONNECTED) {
+    if (FirmwareVersionCheck() == 1) {
+      firmwareUpdate();
+    }
+  }
+}
+
+int FirmwareVersionCheck(void) {
+  String payload;
+  int httpCode;
+  String fwurl = "";
+  fwurl += URL_fw_Version;
+  Serial.println(fwurl);
+  WiFiClientSecure * client = new WiFiClientSecure;
+
+  if (client)
+  {
+    client -> setCACert(rootCACertificate);
+
+    // Add a scoping block for HTTPClient https to make sure it is destroyed before WiFiClientSecure *client is
+    HTTPClient https;
+
+    if (https.begin( * client, fwurl))
+    { // HTTPS
+      Serial.print("[HTTPS] GET...\n");
+      // start connection and send HTTP header
+      delay(100);
+      httpCode = https.GET();
+      delay(100);
+      if (httpCode == HTTP_CODE_OK) // if version received
+      {
+        payload = https.getString(); // save received version
+      } else {
+        Serial.print("error in downloading version file:");
+        Serial.println(httpCode);
+      }
+      https.end();
+    }
+    delete client;
+  }
+
+  if (httpCode == HTTP_CODE_OK) // if version received
+  {
+    payload.trim();
+    if (payload.equals(FirmwareVer)) {
+      Serial.printf("\nDevice already on latest firmware version:%s\n", FirmwareVer);
+      return 0;
+    }
+    else
+    {
+      Serial.println(payload);
+      Serial.println("New firmware detected");
+      return 1;
+    }
+  }
+  return 0;
 }

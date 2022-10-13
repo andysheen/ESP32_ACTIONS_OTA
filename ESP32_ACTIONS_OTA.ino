@@ -1,10 +1,17 @@
 #include <WiFiManager.h> 
 #include <HTTPClient.h>
 #include <HTTPUpdate.h>
+#include <WiFiClientSecure.h>
+#include "cert.h"
 
  WiFiManager wm;
 
-const char * GITHUB_URL = "https://github.com/andysheen/ESP32_ACTIONS_OTA/releases/latest/download/app.bin";
+String FirmwareVer = {
+  "0.4"
+};
+#define URL_fw_Version "https://raw.githubusercontent.com/andysheen/ESP32_ACTIONS_OTA/main/fw_version.txt"
+#define URL_fw_Bin  "https://raw.githubusercontent.com/andysheen/ESP32_ACTIONS_OTA/main/app.bin"
+
 
 //LED Variables
 const int led = 2; // ESP32 Pin to which onboard LED is connected
@@ -23,6 +30,6 @@ void setup() {
 
 void loop() {
 
-  blinkLed(1000);
+  blinkLed(100);
 
 }
