@@ -2,10 +2,10 @@ name: build
 
 on: 
    workflow_dispatch:
-      inputs:
-         name:
-            description: release number
-            required: true
+      #inputs:
+         #name:
+            #description: release number
+            #required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -112,9 +112,9 @@ jobs:
       - name: commit
         run: |
           # Stage the file, commit and push
-          echo '${{ github.event.inputs.name }}' > fw_version.txt
+          #echo '${{ github.event.inputs.name }}' > fw_version.h
           git add app.bin
-          git add fw_version.txt
+          #git add fw_version.h
           git commit -m "new fw"
           git push origin main
           
