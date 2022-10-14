@@ -1,15 +1,12 @@
-#include <WiFiManager.h> 
+#include <WiFiManager.h>
 #include <HTTPClient.h>
 #include <HTTPUpdate.h>
 #include <WiFiClientSecure.h>
 #include "cert.h"
 #include "fw_version.h"
 
- WiFiManager wm;
+WiFiManager wm;
 
-String FirmwareVer = {
-  "0.4"
-};
 #define URL_fw_Version "https://raw.githubusercontent.com/andysheen/ESP32_ACTIONS_OTA/main/fw_version.h"
 #define URL_fw_Bin  "https://raw.githubusercontent.com/andysheen/ESP32_ACTIONS_OTA/main/app.bin"
 

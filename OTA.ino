@@ -75,13 +75,13 @@ int FirmwareVersionCheck(void) {
     fwNew.remove(0, (payload.lastIndexOf(".") - 2));
     fwNew.remove(fwNew.lastIndexOf("\""), 2);
     Serial.println(fwNew);
-    if (fwNew.equals(FirmwareVer)) {
-      Serial.printf("\nDevice already on latest firmware version:%s\n", FirmwareVer);
+    if (fwNew.equals(fw)) {
+      Serial.printf("\nDevice already on latest firmware version:%s\n", fwNew);
       return 0;
     }
     else
     {
-      Serial.println(payload);
+      Serial.println(fwNew);
       Serial.println("New firmware detected");
       return 1;
     }
