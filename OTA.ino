@@ -71,7 +71,11 @@ int FirmwareVersionCheck(void) {
   if (httpCode == HTTP_CODE_OK) // if version received
   {
     payload.trim();
-    if (payload.equals(FirmwareVer)) {
+    String fwNew = payload;
+    fwNew.remove(0, (payload.lastIndexOf(".") - 2));
+    fwNew.remove(fwNew.lastIndexOf("\""), 2);
+    Serial.println(fwNew);
+    if (fwNew.equals(FirmwareVer)) {
       Serial.printf("\nDevice already on latest firmware version:%s\n", FirmwareVer);
       return 0;
     }
