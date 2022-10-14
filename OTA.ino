@@ -72,7 +72,7 @@ int FirmwareVersionCheck(void) {
   {
     payload.trim();
     String fwNew = payload;
-    fwNew.remove(0, (payload.lastIndexOf(".") - 2));
+    fwNew.remove(0, (payload.lastIndexOf(".") - 1));
     fwNew.remove(fwNew.lastIndexOf("\""), 2);
     Serial.println(fwNew);
     if (fwNew.equals(fw)) {
